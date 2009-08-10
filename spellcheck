@@ -1,0 +1,13 @@
+#!/usr/bin/env narwhal
+if (system.args.length != 2) {
+	print("Usage: " + system.args[0] + " <word>");
+} else {
+	var speller = require('./speller');
+	var start = new Date();
+	speller.train("big.txt");
+	var t1 = new Date();
+	print("Trained in " + (t1 - start) + " msec");
+	print(speller.correct(system.args[1]));
+	var finish = new Date();
+	print("Found result in " + (finish - t1) + " msec");
+}
