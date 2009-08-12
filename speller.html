@@ -10,7 +10,9 @@ $(document).ready(function(){
 		var word = $('#word')[0].value;
 		print(speller.correct(word));
 	});
-	speller.train("big.txt");
+	$("#train").click(function(event) {
+		speller.train("big.txt");
+	});
 });
 
 print = function(str) {
@@ -20,6 +22,7 @@ print = function(str) {
 </script>
 </head>
 <body>
+<button id="train">train</button><br>
 <input type="text" id="word" value="poteto">
 <button id="correct">correct</button>
 <br>
