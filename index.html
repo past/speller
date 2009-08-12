@@ -10,19 +10,23 @@ $(document).ready(function(){
 		var word = $('#word')[0].value;
 		print(speller.correct(word));
 	});
-	speller.train("big.txt");
+	$("#train").click(function(event) {
+		speller.train("big.txt");
+	});
 });
 
 print = function(str) {
-	$("#result")[0].innerHTML = "<pre>" + str + "</pre>";
+	var old = $("#result > pre")[0].innerHTML;
+	$("#result")[0].innerHTML = "<pre>" + old + "<br>" + str + "</pre>";
 };
 </script>
 </head>
 <body>
+<button id="train">train</button><br>
 <input type="text" id="word" value="poteto">
 <button id="correct">correct</button>
 <br>
-<div id="result"></div>
+<div id="result"><pre></pre></div>
 </body>
 </html>
 
