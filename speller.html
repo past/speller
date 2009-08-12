@@ -14,7 +14,8 @@ $(document).ready(function(){
 });
 
 print = function(str) {
-	$("#result")[0].innerHTML = "<pre>" + str + "</pre>";
+	var old = $("#result > pre")[0].innerHTML;
+	$("#result")[0].innerHTML = "<pre>" + old + "<br>" + str + "</pre>";
 };
 </script>
 </head>
@@ -22,7 +23,7 @@ print = function(str) {
 <input type="text" id="word" value="poteto">
 <button id="correct">correct</button>
 <br>
-<div id="result"></div>
+<div id="result"><pre></pre></div>
 </body>
 </html>
 
