@@ -243,4 +243,4 @@ var tests2 = {'forbidden': 'forbiden', 'decisions': 'deciscions descisions',
 'biulding', 'required': 'reequired', 'necessitates': 'nessisitates',
 'together': 'togehter', 'profits': 'proffits'};
 
-print(json.stringify(spelltest(tests1, 0, true)));
+print(json.stringify(spelltest(tests1)));
