@@ -19,6 +19,7 @@ Contents
 * big.txt is Peter Norvig's original training file, with about a million words
 * spelltest.js is a [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant test suite, that uses Norvig's original test cases
 * test is a Unix/Linux shell script that runs the tests in spelltest.js
+* worker.js is a [Web Worker](http://www.whatwg.org/specs/web-workers/current-work/) that allows the tests in spelltest.js to run inside a browser
 
 License
 -------
