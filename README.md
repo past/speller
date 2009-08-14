@@ -17,6 +17,8 @@ Contents
 * speller.html is an HTML file that shows how to use spell.js (you can try it [here](http://past.github.com/speller/))
 * spellcheck is a Unix/Linux shell script that shows how to use speller.js
 * big.txt is Peter Norvig's original training file, with about a million words
+* spelltest.js is a [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant test suite, that uses Norvig's original test cases
+* test is a Unix/Linux shell script that runs the tests in spelltest.js
 
 License
 -------
