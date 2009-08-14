@@ -22,7 +22,7 @@ var speller = {};
 
 exports.train = speller.train = function (filename) {
 	var f = file.open(filename, "r");
-	var temp;
+	var m, temp;
 	var r = /[a-z]+/g;
 	while ((temp = f.readLine()) != "")
 		while ((m = r.exec(temp.toLowerCase()))) {
