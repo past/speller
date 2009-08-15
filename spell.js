@@ -34,6 +34,7 @@ speller.train = function (filename) {
 		});
 		var t2 = new Date();
 		print("Trained in " + (t2 - t1) + " msec");
+		$.loading(false, { text: 'Working...', pulse: 'fade'});
 	}, "text");
 };
 

@@ -3,20 +3,26 @@
 <title>Spellchecker</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.loading.min.js"></script>
 <script type="text/javascript" src="spell.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#correct").click(function(event) {
+		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var word = $('#word')[0].value;
 		print(speller.correct(word));
+		$.loading(false, { text: 'Working...', pulse: 'fade'});
 	});
 	$("#train").click(function(event) {
+		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		speller.train("big.txt");
 	});
 	var work = function(event) {
+		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var worker = new Worker("worker.js");
 		worker.onmessage = function (e) {
 			print(e.data);
+			$.loading(false, { text: 'Working...', pulse: 'fade'});
 		};
 		worker.postMessage(this.id + "@" + JSON.stringify(speller.nWords));
 	};
@@ -29,6 +35,56 @@ print = function(str) {
 	$("#result")[0].innerHTML = "<pre>" + old + "<br>" + str + "</pre>";
 };
 </script>
+<style>
+.loading {
+    background: #FFC129;
+    color: black;
+    font-weight: bold;
+    padding: 3px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.loading-img, .loading-element {
+    background: transparent;
+    padding: 0px;
+}
+.loading.top {
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-topright: 0px;
+    -webkit-border-top-left-radius: 0px;
+    -webkit-border-top-right-radius: 0px;
+}
+.loading.left {
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-top-left-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+}
+.loading.bottom {
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+}
+.loading.right {
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+}
+.loading-masked { overflow: hidden; }
+.loading-error {
+    color: #FFF;
+    background: red;
+}
+    </style>
+<!-- overflow:hidden in IE is currently breaking mask calcs :( -->
+<!--[if IE]>
+    <style type="text/css">
+.loading-masked { overflow: visible; }
+    </style>
+<![endif]-->
+ 
 </head>
 <body>
 <div>
@@ -61,7 +117,8 @@ Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 40
 warnings, the test implementation relies on <a href='http://www.whatwg.org/specs/web-workers/current-work/'>Web Workers</a>
 that are currently only supported in Firefox 3.5, Safari 4 and Chrome 3.<br>
 </div>
-Console log:<hr>
+Console log:<span id="spinner"></span>
+<hr>
 <div id="result"><pre></pre></div>
 </body>
 </html>
