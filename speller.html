@@ -10,8 +10,10 @@ $(document).ready(function(){
 	$("#correct").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var word = $('#word')[0].value;
-		print(speller.correct(word));
-		$.loading(false, { text: 'Working...', pulse: 'fade'});
+		setTimeout(function () {
+			print(speller.correct(word));
+			$.loading(false, { text: 'Working...', pulse: 'fade'});
+		}, 0);
 	});
 	$("#train").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
