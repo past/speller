@@ -21,6 +21,10 @@ if (system.args.length != 2) {
     var speller = require('./speller');
     var spelltest = require('./spelltest');
     var json = require('json');
-    speller.train("big.txt");
+	var file = require("file");
+	// Train the language model first.
+	var f = file.open("big.txt", "r");
+	while ((temp = f.readLine()) != "")
+		speller.train(temp);
     print(json.stringify(spelltest.test(spelltest[system.args[1]])));
 }

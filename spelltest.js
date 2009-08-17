@@ -16,9 +16,16 @@
 
 var spelltest = {};
 
+// Dummy initializer for non-ServerJS environments.
 var exports;
 if (!exports) exports = {};
+var require;
+if (!require) require = {};
 
+var speller;
+if (!speller) speller = require('./speller');
+
+// A function that tests the speller against the supplied map of tests.
 exports.test = spelltest.test = function (tests, bias, verbose) {
     var n = 0;
     var bad = 0;
@@ -51,6 +58,7 @@ exports.test = spelltest.test = function (tests, bias, verbose) {
             "unknown": unknown, "secs": ((new Date()-start)/1000).toFixed(0)};
 };
 
+// The first set of tests. Keys are the correct words, while values are the wrong ones.
 exports.tests1 = spelltest.tests1 = { 'access': 'acess', 'accessing': 'accesing', 'accommodation':
 'accomodation acommodation acomodation', 'account': 'acount', 'address':
 'adress adres', 'addressable': 'addresable', 'arranged': 'aranged arrainged',
@@ -113,6 +121,7 @@ exports.tests1 = spelltest.tests1 = { 'access': 'acess', 'accessing': 'accesing'
 'voluntary': 'volantry', 'voting': 'voteing', 'wanted': 'wantid wonted',
 'whether': 'wether', 'wrote': 'rote wote'};
 
+// The second set of tests. Keys are the correct words, while values are the wrong ones.
 exports.tests2 = spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deciscions descisions',
 'supposedly': 'supposidly', 'embellishing': 'embelishing', 'technique':
 'tecnique', 'permanently': 'perminantly', 'confirmation': 'confermation',
@@ -241,6 +250,3 @@ exports.tests2 = spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deci
 'graphicaly', 'suited': 'suted', 'variable': 'varible vaiable', 'building':
 'biulding', 'required': 'reequired', 'necessitates': 'nessisitates',
 'together': 'togehter', 'profits': 'proffits'};
-
-var speller = require('./speller');
-

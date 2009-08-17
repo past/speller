@@ -19,10 +19,16 @@ if (system.args.length != 2) {
 	print("Usage: " + system.args[0] + " <word>");
 } else {
 	var speller = require('./speller');
+	var file = require("file");
+	// Train the language model first.
+	var f = file.open("big.txt", "r");
 	var start = new Date();
-	speller.train("big.txt");
+	while ((temp = f.readLine()) != "")
+		speller.train(temp);
 	var t1 = new Date();
 	print("Trained in " + (t1 - start) + " msec");
+	f.close();
+	// Then correct the provided word.
 	print(speller.correct(system.args[1]));
 	var finish = new Date();
 	print("Found result in " + (finish - t1) + " msec");
