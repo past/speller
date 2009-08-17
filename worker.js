@@ -14,75 +14,160 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+/*
+ * This file is the concatenation of speller.js, spelltest.js, json2.js and the
+ * worker controller function. Since Web Workers cannot load code from external
+ * libraries, I have manually bundled the necessary code together with simple
+ * copy & paste.
+ */
+
+// The worker control function.
 onmessage = function (e) {
     var message = e.data.split("@");
     speller.nWords = JSON.parse(message[1]);
 	postMessage(JSON.stringify(spelltest.test(spelltest[message[0]])));
-
 };
+
+/*** speller.js ***/
+
+/* -*- mode: JavaScript; c-basic-offset: 4; tab-width: 4; indent-tabs-mode: nil -*- */
+/* ex: set tabstop=4 expandtab: */
+/*
+ * Copyright (c) 2009 Panagiotis Astithas
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * A spell-checker based on the statistical algorithm described by Peter Norvig
+ * in http://norvig.com/spell-correct.html
+ *
+ * Usage requires a two-step process:
+ * 1) call speller.train() one or more times with a large text to train the language model
+ * 2) call speller.correct(word) to retrieve the correction for the specified word
+ */
 
 var speller = {};
 
-speller.correct = function (word) {
+// Dummy initializer for non-ServerJS environments.
+var exports;
+if (!exports) exports = {};
+
+// A function that trains the language model with the words in the supplied text.
+// Multiple invocation of this function can extend the training of the model.
+exports.train = speller.train = function (text) {
+	var m, r = /[a-z]+/g;
+	while ((m = r.exec(text.toLowerCase()))) {
+		text = m[0];
+		speller.nWords[text] = speller.nWords.hasOwnProperty(text) ? speller.nWords[text] + 1 : 1;
+	}
+};
+
+// A function that returns the correction for the specified word.
+exports.correct = speller.correct = function (word) {
 	if (speller.nWords.hasOwnProperty(word)) return word;
-	var list = speller.edits(word);
-	var candidates = {};
-	list.forEach(function(edit) {
+	var candidates = {}, list = speller.edits(word);
+	list.forEach(function (edit) {
 		if (speller.nWords.hasOwnProperty(edit)) candidates[speller.nWords[edit]] = edit;
 	});
 	if (speller.countKeys(candidates) > 0) return candidates[speller.max(candidates)];
-	list.forEach(function(edit) {
-		speller.edits(edit).forEach(function(w) {
+	list.forEach(function (edit) {
+		speller.edits(edit).forEach(function (w) {
 			if (speller.nWords.hasOwnProperty(w)) candidates[speller.nWords[w]] = w;
 		});
 	});
 	return speller.countKeys(candidates) > 0 ? candidates[speller.max(candidates)] : word;
 };
 
-speller.countKeys = function(object) {
-	var count = 0;
-	for (var attr in object)
+// A map of words to the number of times they were encountered during training.
+// This is exported only for the benefit of spelltest.js.
+exports.nWords = speller.nWords = {};
+
+// A helper function that counts the keys in the supplied object.
+speller.countKeys = function (object) {
+	var attr, count = 0;
+	for (attr in object)
 		if (object.hasOwnProperty(attr))
 			count++;
 	return count;	
 };
 
-speller.max = function(candidates) {
-	var arr = [];
-	for (var candidate in candidates)
+// A helper function that returns the word with the most occurences in the language
+// model, among the supplied candidates.
+speller.max = function (candidates) {
+	var candidate, arr = [];
+	for (candidate in candidates)
 		if (candidates.hasOwnProperty(candidate))
 			arr.push(candidate);
 	return Math.max.apply(null, arr);
 };
 
-speller.nWords = {};
+speller.letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
-speller.alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-
+// A function that returns the set of possible corrections of the specified word.
+// The edits can be deletions, insertions, alterations or transpositions.
 speller.edits = function (word) {
-	var results = [];
+	var i, results = [];
 	// deletion
-	for (var i=0; i < word.length; i++)
+	for (i=0; i < word.length; i++)
 	    results.push(word.slice(0, i) + word.slice(i+1));
 	// transposition
 	for (i=0; i < word.length-1; i++)
 	    results.push(word.slice(0, i) + word.slice(i+1, i+2) + word.slice(i, i+1) + word.slice(i+2));
 	// alteration
 	for (i=0; i < word.length; i++)
-	    speller.alphabet.forEach(function(c) {
-	        results.push(word.slice(0, i) + c + word.slice(i+1));
+	    speller.letters.forEach(function (l) {
+	        results.push(word.slice(0, i) + l + word.slice(i+1));
 		});
 	// insertion
 	for (i=0; i <= word.length; i++)
-	    speller.alphabet.forEach(function(c) {
-	        results.push(word.slice(0, i) + c + word.slice(i));
+	    speller.letters.forEach(function (l) {
+	        results.push(word.slice(0, i) + l + word.slice(i));
 		});
 	return results;
 };
 
+/*** spelltest.js ***/
+
+/*
+ * Copyright (c) 2009 Panagiotis Astithas
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
 var spelltest = {};
 
-spelltest.test = function (tests, bias, verbose) {
+// Dummy initializer for non-ServerJS environments.
+var exports;
+if (!exports) exports = {};
+var require;
+if (!require) require = {};
+
+var speller;
+if (!speller) speller = require('./speller');
+
+// A function that tests the speller against the supplied map of tests.
+exports.test = spelltest.test = function (tests, bias, verbose) {
     var n = 0;
     var bad = 0;
     var unknown = 0;
@@ -114,7 +199,8 @@ spelltest.test = function (tests, bias, verbose) {
             "unknown": unknown, "secs": ((new Date()-start)/1000).toFixed(0)};
 };
 
-spelltest.tests1 = { 'access': 'acess', 'accessing': 'accesing', 'accommodation':
+// The first set of tests. Keys are the correct words, while values are the wrong ones.
+exports.tests1 = spelltest.tests1 = { 'access': 'acess', 'accessing': 'accesing', 'accommodation':
 'accomodation acommodation acomodation', 'account': 'acount', 'address':
 'adress adres', 'addressable': 'addresable', 'arranged': 'aranged arrainged',
 'arrangeing': 'aranging', 'arrangement': 'arragment', 'articles': 'articals',
@@ -176,7 +262,8 @@ spelltest.tests1 = { 'access': 'acess', 'accessing': 'accesing', 'accommodation'
 'voluntary': 'volantry', 'voting': 'voteing', 'wanted': 'wantid wonted',
 'whether': 'wether', 'wrote': 'rote wote'};
 
-spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deciscions descisions',
+// The second set of tests. Keys are the correct words, while values are the wrong ones.
+exports.tests2 = spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deciscions descisions',
 'supposedly': 'supposidly', 'embellishing': 'embelishing', 'technique':
 'tecnique', 'permanently': 'perminantly', 'confirmation': 'confermation',
 'appointment': 'appoitment', 'progression': 'progresion', 'accompanying':
@@ -304,6 +391,8 @@ spelltest.tests2 = {'forbidden': 'forbiden', 'decisions': 'deciscions descisions
 'graphicaly', 'suited': 'suted', 'variable': 'varible vaiable', 'building':
 'biulding', 'required': 'reequired', 'necessitates': 'nessisitates',
 'together': 'togehter', 'profits': 'proffits'};
+
+/*** json2.js ***/
 
 /*
     http://www.JSON.org/json2.js

@@ -4,18 +4,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.loading.min.js"></script>
-<script type="text/javascript" src="spell.js"></script>
+<script type="text/javascript" src="speller.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#correct").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
 		var word = $('#word')[0].value;
-		print(speller.correct(word));
-		$.loading(false, { text: 'Working...', pulse: 'fade'});
+		setTimeout(function () {
+			print(speller.correct(word));
+			$.loading(false, { text: 'Working...', pulse: 'fade'});
+		}, 0);
 	});
 	$("#train").click(function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
-		speller.train("big.txt");
+		var t0 = new Date();
+		$.get("big.txt", null, function (data, textStatus) {
+			var t1 = new Date();
+			print("Loaded file in " + (t1 - t0) + " msec");
+			var lines = data.split("\n");
+			lines.forEach(function (line) {
+				speller.train(line);
+			});
+			var t2 = new Date();
+			print("Trained in " + (t2 - t1) + " msec");
+			$.loading(false, { text: 'Working...', pulse: 'fade'});
+		}, "text");
 	});
 	var work = function(event) {
 		$.loading(true, { text: 'Working...', pulse: 'fade'});
