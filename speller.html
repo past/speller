@@ -2,6 +2,7 @@
 <head>
 <title>Spellchecker</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="content.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.loading.min.js"></script>
 <script type="text/javascript" src="speller.js"></script>
@@ -45,7 +46,7 @@ $(document).ready(function(){
 
 print = function(str) {
 	var old = $("#result > pre")[0].innerHTML;
-	$("#result")[0].innerHTML = "<pre>" + old + "<br>" + str + "</pre>";
+	$("#result > pre")[0].innerHTML = old + "<br>" + str;
 };
 </script>
 <style>
@@ -100,24 +101,28 @@ print = function(str) {
  
 </head>
 <body>
-<div>
-This page serves as a playground for the JavaScript spell-checker implementation.
-For details about the algorithm, read the <a href='http://norvig.com/spell-correct.html'>original article</a> by Peter Norvig.
-Before using the spell-checker, the algorithm must be trained first. If you click
+<div class="page">
+<div class="body">
+<div class="main">
+<h1>A JavaScript spell-checker</h1>
+<p>This page serves as a playground for the JavaScript spell-checker implementation.
+For details about the algorithm, read the <a href='http://norvig.com/spell-correct.html'>
+original article</a> by Peter Norvig. Using it is a two-step process: 1) train
+the algorithm, 2) request corrections.
+<p>Before using the spell-checker, the algorithm must be trained first. If you click
 on the 'correct' button before that, the algorithm will be unable to find the correct
-spelling in any word you try.
-<p>Training involves loading a file with many words (about a million in this
-case) and building a language model. You can click the 'train' button to do it:
+spelling in any word you try. Training involves loading a file with many words (about a million in this
+case) and building a language model. This file is the same one used by Norvig.
+You can click on the 'train' button to do it:
 <button id="train">train</button>
-</div>
-<div>
-With the spell-checking engine trained, we can now request corrections for any misspellings
-we want:<br>
+<p>With the spell-checking engine trained, we can now request corrections for any
+words we want. You can enter a misspelled word in the input box below and then click
+on the 'correct' button to correct it:<br>
 <input type="text" id="word" value="poteto">
 <button id="correct">correct</button>
-</div><br>
-<div>
-Besides individual corrections, we can run the tests in the <a href='http://norvig.com/spell-correct.html'>original article</a>.
+<br>
+<p>After playing a little with some words, you may want to run the tests in the
+<a href='http://norvig.com/spell-correct.html'>original article</a>.
 These tests apply the trained algorithm to a set of misspelled words and evaluate
 the performance of the implementation. The original results from Peter Norvig's
 Python implementation were:
@@ -130,9 +135,11 @@ Test 2: {'bad': 130, 'bias': None, 'unknown': 43, 'secs': 26, 'pct': 67, 'n': 40
 warnings, the test implementation relies on <a href='http://www.whatwg.org/specs/web-workers/current-work/'>Web Workers</a>
 that are currently only supported in Firefox 3.5, Safari 4 and Chrome 3.<br>
 </div>
-Console log:<span id="spinner"></span>
-<hr>
-<div id="result"><pre></pre></div>
+<hr/>
+<div id="result">
+<h3>Console:</h3>
+<pre></pre>
+</div>
 </body>
 </html>
 
