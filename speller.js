@@ -34,9 +34,12 @@ if (!exports) exports = {};
 // A function that trains the language model with the words in the supplied text.
 // Multiple invocation of this function can extend the training of the model.
 exports.train = speller.train = function (text) {
-	var m, r = /[a-z]+/g;
-	while ((m = r.exec(text.toLowerCase())))
-		speller.nWords[m[0]] = speller.nWords.hasOwnProperty(m[0]) ? speller.nWords[m[0]] + 1 : 1;
+	var word, m, r = /[a-z]+/g;
+	text = text.toLowerCase();
+	while ((m = r.exec(text))) {
+		word = m[0];
+		speller.nWords[word] = speller.nWords.hasOwnProperty(word) ? speller.nWords[word] + 1 : 1;
+	}
 };
 
 // A function that returns the correction for the specified word.
