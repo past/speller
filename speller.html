@@ -23,12 +23,18 @@ $(document).ready(function(){
 			var t1 = new Date();
 			print("Loaded file in " + (t1 - t0) + " msec");
 			var lines = data.split("\n");
+			var count = lines.length;
 			lines.forEach(function (line) {
-				speller.train(line);
+				setTimeout(function () {
+					speller.train(line);
+					count--;
+					if (count == 0) {
+						var t2 = new Date();
+						print("Trained in " + (t2 - t1) + " msec");
+						$.loading(false, { text: 'Working...', pulse: 'fade'});
+					}
+				}, 0);
 			});
-			var t2 = new Date();
-			print("Trained in " + (t2 - t1) + " msec");
-			$.loading(false, { text: 'Working...', pulse: 'fade'});
 		}, "text");
 	});
 	var work = function(event) {
