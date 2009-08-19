@@ -35,10 +35,8 @@ if (!exports) exports = {};
 // Multiple invocation of this function can extend the training of the model.
 exports.train = speller.train = function (text) {
 	var m, r = /[a-z]+/g;
-	while ((m = r.exec(text.toLowerCase()))) {
-		text = m[0];
-		speller.nWords[text] = speller.nWords.hasOwnProperty(text) ? speller.nWords[text] + 1 : 1;
-	}
+	while ((m = r.exec(text.toLowerCase())))
+		speller.nWords[m[0]] = speller.nWords.hasOwnProperty(m[0]) ? speller.nWords[m[0]] + 1 : 1;
 };
 
 // A function that returns the correction for the specified word.
