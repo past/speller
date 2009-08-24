@@ -17,13 +17,13 @@ right inside your browser in the following page:
 Contents
 --------
 
-* speller.js is the spell-checker implementation 
-* speller.html is an HTML file that shows how to use speller.js (you can try it [here](http://past.github.com/speller/))
-* spellcheck is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and shows how to use speller.js outside the browser
-* big.txt is Peter Norvig's original training file, with about a million words
-* spelltest.js is a [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant test suite, that uses Norvig's original test cases
-* test is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and runs the tests in spelltest.js
-* worker.js is a [Web Worker](http://www.whatwg.org/specs/web-workers/current-work/) that allows the tests in spelltest.js to run inside a browser
+* lib/speller.js is the spell-checker implementation 
+* demo/speller.html is an HTML file that shows how to use speller.js (you can try it [here](http://past.github.com/speller/))
+* bin/spellcheck is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and shows how to use speller.js outside the browser
+* bin/big.txt is Peter Norvig's original training file, with about a million words
+* tests/spelltest.js is a [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant test suite, that uses Norvig's original test cases
+* tests/test is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and runs the tests in spelltest.js
+* demo/worker.js is a [Web Worker](http://www.whatwg.org/specs/web-workers/current-work/) that allows the tests in spelltest.js to run inside a browser
 
 License
 -------

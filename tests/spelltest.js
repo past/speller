@@ -23,7 +23,7 @@ var require;
 if (!require) require = {};
 
 var speller;
-if (!speller) speller = require('./speller');
+if (!speller) speller = require('speller');
 
 // A function that tests the speller against the supplied map of tests.
 exports.test = spelltest.test = function (tests, bias, verbose) {
