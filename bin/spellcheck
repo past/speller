@@ -21,7 +21,7 @@ if (system.args.length != 2) {
 	var speller = require('speller');
 	var file = require("file");
 	// Train the language model first.
-	var f = file.open("big.txt", "r");
+	var f = new file.Path(module.path).resolve("big.txt").open("r");
 	var start = new Date();
 	while ((temp = f.readLine()) != "")
 		speller.train(temp);

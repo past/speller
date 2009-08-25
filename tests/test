@@ -23,7 +23,7 @@ if (system.args.length != 2) {
     var json = require('json');
 	var file = require("file");
 	// Train the language model first.
-	var f = file.open("../bin/big.txt", "r");
+	var f = new file.Path(module.path).resolve("../bin/big.txt").open("r");
 	while ((temp = f.readLine()) != "")
 		speller.train(temp);
     print(json.stringify(spelltest.test(spelltest[system.args[1]])));
