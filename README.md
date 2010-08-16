@@ -6,11 +6,13 @@ algorithm. You can read more about the approach in the original article:
 
 [http://norvig.com/spell-correct.html](http://norvig.com/spell-correct.html)
 
-The code is [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant, so it can be
+The code is [CommonJS](http://commonjs.org/)-compliant, so it can be
 used both inside and outside of a web browser. For the latter case there are a
 couple of command-line scripts demonstrating its use that depend on
-[narwhal](http://narwhaljs.org/). Alternatively, you can see the code in action
-right inside your browser in the following page:
+[narwhal](http://narwhaljs.org/) or [node](http://nodejs.org/). You may use the
+tusk and [npm](http://npmjs.org) package managers to install speller on narwhal
+and node, respectively. Alternatively, you can see the code in action right
+inside your browser in the following page:
 
 [http://past.github.com/speller/](http://past.github.com/speller/)
 
@@ -20,8 +22,9 @@ Contents
 * lib/speller.js is the spell-checker implementation 
 * demo/speller.html is an HTML file that shows how to use speller.js (you can try it [here](http://past.github.com/speller/))
 * bin/spellcheck is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and shows how to use speller.js outside the browser
+* bin/speller is a Unix/Linux shell script, that depends on [node](http://nodejs.org/) and shows how to use speller.js outside the browser
 * bin/big.txt is Peter Norvig's original training file, with about a million words
-* tests/spelltest.js is a [ServerJS](https://wiki.mozilla.org/ServerJS)-compliant test suite, that uses Norvig's original test cases
+* tests/spelltest.js is a [CommonJS](http://commonjs.org/)-compliant test suite, that uses Norvig's original test cases
 * tests/test is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and runs the tests in spelltest.js
 * demo/worker.js is a [Web Worker](http://www.whatwg.org/specs/web-workers/current-work/) that allows the tests in spelltest.js to run inside a browser
 

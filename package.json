@@ -2,5 +2,11 @@
     "name": "speller",
     "description": "A JavaScript spell-checker",
     "author": "Panagiotis Astithas",
-    "keywords": ["spell-checker", "spelling", "corrector"]
+    "keywords": ["spell-checker", "spelling", "corrector"],
+    "overlay": {
+        "npm": {
+            "version": "1.0.0",
+            "bin" : { "speller" : "./bin/speller" }
+        }
+    }
 }
