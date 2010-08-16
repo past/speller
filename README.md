@@ -26,6 +26,7 @@ Contents
 * bin/big.txt is Peter Norvig's original training file, with about a million words
 * tests/spelltest.js is a [CommonJS](http://commonjs.org/)-compliant test suite, that uses Norvig's original test cases
 * tests/test is a Unix/Linux shell script, that depends on [narwhal](http://narwhaljs.org/) and runs the tests in spelltest.js
+* tests/test-node is a Unix/Linux shell script, that depends on [node](http://nodejs.org/) and runs the tests in spelltest.js
 * demo/worker.js is a [Web Worker](http://www.whatwg.org/specs/web-workers/current-work/) that allows the tests in spelltest.js to run inside a browser
 
 License

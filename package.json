@@ -6,6 +6,7 @@
     "overlay": {
         "npm": {
             "version": "1.0.0",
+            "main": "lib/speller.js",
             "bin" : { "speller" : "./bin/speller" }
         }
     }
