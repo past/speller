@@ -3,11 +3,10 @@
     "description": "A JavaScript spell-checker",
     "author": "Panagiotis Astithas",
     "keywords": ["spell-checker", "spelling", "corrector"],
-    "overlay": {
-        "npm": {
-            "version": "1.0.0",
-            "main": "lib/speller.js",
-            "bin" : { "speller" : "./bin/speller" }
-        }
-    }
+    "version": "1.0.0",
+    "directories" : {
+        "lib" : "./lib"
+    },
+    "main": "./lib/speller.js",
+    "bin" : { "speller" : "./bin/speller" }
 }
