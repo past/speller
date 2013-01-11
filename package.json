@@ -3,7 +3,7 @@
     "description": "A JavaScript spell-checker",
     "author": "Panagiotis Astithas",
     "keywords": ["spell-checker", "spelling", "corrector"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "directories" : {
         "lib" : "./lib"
     },
