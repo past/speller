@@ -7,6 +7,10 @@
     "directories" : {
         "lib" : "./lib"
     },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/past/speller.git"
+    },
     "main": "./lib/speller.js",
     "bin" : { "speller" : "./bin/speller" }
 }
